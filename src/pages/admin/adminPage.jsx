@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import useProduct  from "../../context/productcontext.jsx";
+import { useProduct } from "../../context/productcontext.jsx";
 import { useOrder } from "../../context/orderscontext";
 import { useUser } from "../../context/userContext";
 import {
