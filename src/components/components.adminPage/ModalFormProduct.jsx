@@ -27,6 +27,8 @@ const ModalFormProduct = ({
             <FiX size={24} />
           </button>
         </div>
+
+        {/* ERRORES */}
         {errors.length > 0 && (
           <div className="mb-4 p-4 rounded-lg bg-red-600 text-white animate-pulse">
             <ul className="list-disc list-inside space-y-1">
@@ -44,10 +46,11 @@ const ModalFormProduct = ({
             <input
               type="text"
               name="name"
-              placeholder="Nombre del producto"
               value={newProduct.name}
               onChange={handleInputChange}
-              className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:ring-2 focus:ring-gray-800 focus:outline-none transition"
+              placeholder="Nombre del producto"
+              className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:ring-2 focus:ring-gray-800"
+              required
             />
           </div>
 
@@ -58,11 +61,12 @@ const ModalFormProduct = ({
             </label>
             <textarea
               name="description"
-              placeholder="Descripción breve"
               value={newProduct.description}
               onChange={handleInputChange}
-              rows="3"
-              className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:ring-2 focus:ring-gray-800 focus:outline-none transition"
+              placeholder="Descripción del producto"
+              rows={3}
+              className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:ring-2 focus:ring-gray-800"
+              required
             />
           </div>
 
@@ -75,21 +79,24 @@ const ModalFormProduct = ({
               <input
                 type="number"
                 name="price"
-                placeholder="Precio S/."
                 value={newProduct.price}
                 onChange={handleInputChange}
-                className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:ring-2 focus:ring-gray-800 focus:outline-none transition"
+                placeholder="Precio S/."
+                className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600"
+                required
               />
             </div>
+
             <div className="flex-1">
               <label className="text-sm font-medium text-gray-300">Stock</label>
               <input
                 type="number"
                 name="stock"
-                placeholder="Cantidad en stock"
                 value={newProduct.stock}
                 onChange={handleInputChange}
-                className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:ring-2 focus:ring-gray-800 focus:outline-none transition"
+                placeholder="Stock"
+                className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600"
+                required
               />
             </div>
           </div>
@@ -107,9 +114,10 @@ const ModalFormProduct = ({
                   target: { name: "category", value: e.target.value },
                 })
               }
-              className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:ring-2 focus:ring-gray-800 focus:outline-none transition"
+              className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600"
+              required
             >
-              <option value="">Seleccione una categoría</option>
+              <option value="">Selecciona una categoría</option>
               {!loadingCategories &&
                 categories.map((cat) => (
                   <option key={cat._id} value={cat._id}>
@@ -122,14 +130,14 @@ const ModalFormProduct = ({
           {/* Imagen */}
           <div>
             <label className="text-sm font-medium text-gray-300">
-              Imagen del producto
+              Imagen del Producto
             </label>
             <input
               type="file"
               name="image"
               accept="image/*"
               onChange={handleImageChange}
-              className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:ring-2 focus:ring-gray-800 focus:outline-none transition file:cursor-pointer"
+              className="mt-1 w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600"
             />
           </div>
 
@@ -139,24 +147,23 @@ const ModalFormProduct = ({
               <img
                 src={previewImage}
                 alt="Vista previa"
-                className="w-32 h-32 object-cover rounded-md border border-gray-600 shadow"
+                className="w-32 h-32 object-cover rounded-md border border-gray-600"
               />
             </div>
           )}
 
           {/* Botones */}
-          <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
+          <div className="flex justify-end gap-4 pt-4">
             <button
               type="button"
               onClick={closeModal}
-              className="flex items-center justify-center gap-2 bg-gray-700 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition"
+              className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg"
             >
-              <FiX size={18} /> Cancelar
+              Cancelar
             </button>
-
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-500 transition shadow-md"
+              className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg flex items-center gap-2"
             >
               <FiUpload size={18} /> {buttonText}
             </button>

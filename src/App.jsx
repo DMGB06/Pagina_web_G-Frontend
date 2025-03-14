@@ -43,7 +43,7 @@ import { useState } from "react";
 
 function Layout({ children }) {
   const location = useLocation();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Cerrado por defecto en mobile
 
   const adminRoutes = [
     "/adminPage",
@@ -69,18 +69,18 @@ function Layout({ children }) {
 
   if (isAdminRoute) {
     return (
-      <div className="flex bg-[#1f1f1f] min-h-screen text-white">
+      <div className="flex bg-[#1f1f1f] min-h-screen text-white relative">
         {/* Sidebar */}
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
         {/* Main content */}
         <main
           className={clsx(
-            "transition-all duration-300 flex-1",
-            isSidebarOpen ? "ml-64" : "ml-20"
+            "transition-all duration-300 w-full",
+            isSidebarOpen ? "lg:ml-64" : "lg:ml-20"
           )}
         >
-          <div >{children}</div>
+          <div>{children}</div>
         </main>
       </div>
     );

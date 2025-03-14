@@ -25,19 +25,19 @@ export const UserProvider = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState(null); // Usuario autenticado
   const [errors, setErrors] = useState([]);
 
-  // 🔥 Obtener el usuario autenticado y su membresía
+  //  Obtener el usuario autenticado y su membresía
   const fetchAuthenticatedUser = async () => {
     if (!isAuthenticated || !user || !user.id) {
-      console.error("❌ No hay usuario autenticado.");
+      console.error(" No hay usuario autenticado.");
       return;
     }
 
     try {
-      const res = await getUserAPI(user.id); // ✅ Obtenemos el usuario autenticado por ID
-      setSelectedUser(res.data); // ✅ Guardamos el usuario en el contexto
-      console.log("✅ Usuario autenticado:", res.data);
+      const res = await getUserAPI(user.id); // Obtenemos el usuario autenticado por ID
+      setSelectedUser(res.data); // Guardamos el usuario en el contexto
+      console.log("Usuario autenticado:", res.data);
     } catch (error) {
-      console.error("❌ Error al obtener el usuario autenticado:", error);
+      console.error(" Error al obtener el usuario autenticado:", error);
       setSelectedUser(null);
     }
   };
@@ -45,30 +45,30 @@ export const UserProvider = ({ children }) => {
     if (isAuthenticated && user?.id) {
       fetchAuthenticatedUser();
     }
-  }, [isAuthenticated, user]); // 🔄 Se ejecuta si el usuario cambia
+  }, [isAuthenticated, user]); // Se ejecuta si el usuario cambia
 
-  // 🔍 Obtener todos los usuarios y actualizar estado
+  // Obtener todos los usuarios y actualizar estado
   const getUsersContext = async () => {
     try {
       const res = await getUsersAPI();
       console.log(res.data);
       setUsers(res.data);
     } catch (error) {
-      console.error("❌ Error al obtener los usuarios:", error);
+      console.error(" Error al obtener los usuarios:", error);
     }
   };
 
-  // 🔍 Obtener un solo usuario por ID
+  //  Obtener un solo usuario por ID
   const getUserContext = async (id) => {
     try {
       const res = await getUserAPI(id);
       return res.data;
     } catch (error) {
-      console.error("❌ Error al obtener el usuario:", error);
+      console.error(" Error al obtener el usuario:", error);
     }
   };
 
-  // ➕ Crear un nuevo usuario y actualizar estado
+  // Crear un nuevo usuario y actualizar estado
   const createUserContext = async (data) => {
     try {
       const res = await createUserAPI(data);
@@ -76,9 +76,9 @@ export const UserProvider = ({ children }) => {
         setUsers([...users, res.data]); // Agregar nuevo usuario al estado
       }
     } catch (error) {
-      console.error("❌ Error al crear usuario:", error);
+      console.error(" Error al crear usuario:", error);
 
-      // ✅ Capturar errores y establecer en el estado para que el frontend los muestre
+      // Capturar errores y establecer en el estado para que el frontend los muestre
       if (error.response && error.response.data) {
         setErrors([error.response.data]); // Asegurar que el backend envíe un mensaje correcto
       } else {
@@ -87,10 +87,10 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // ✏️ Actualizar usuario y actualizar estado
+  //  Actualizar usuario y actualizar estado
   const updateUserContext = async (id, data) => {
     try {
-      console.log("🔄 Actualizando usuario:", { id, ...data });
+      console.log(" Actualizando usuario:", { id, ...data });
   
       const payload = {};
   
@@ -116,14 +116,14 @@ export const UserProvider = ({ children }) => {
       fetchAuthenticatedUser(); // Para refrescar el usuario autenticado
   
     } catch (error) {
-      console.error("❌ Error actualizando usuario:", error);
+      console.error(" Error actualizando usuario:", error);
       throw error; // para que el componente pueda mostrar el error
     }
   };
   
   
 
-  // 🗑️ Eliminar usuario y actualizar estado
+  //  Eliminar usuario y actualizar estado
   const deleteUserContext = async (id) => {
     try {
       const res = await deleteUserAPI(id);
@@ -131,7 +131,7 @@ export const UserProvider = ({ children }) => {
         setUsers(users.filter((user) => user._id !== id));
       }
     } catch (error) {
-      console.error("❌ Error al eliminar usuario:", error);
+      console.error(" Error al eliminar usuario:", error);
     }
   };
 
@@ -148,7 +148,7 @@ export const UserProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         users,
-        selectedUser, // ✅ Usuario autenticado con su membresía
+        selectedUser, // Usuario autenticado con su membresía
         getUsersContext,
         fetchAuthenticatedUser,
         getUserContext,

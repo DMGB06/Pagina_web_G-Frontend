@@ -52,37 +52,50 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  // Crear un producto
   const createProductContext = async (data) => {
     setLoading(true);
     try {
       const res = await createProduct(data);
-      setProducts([...products, res.data]); // Agrega el nuevo producto
+      setProducts([...products, res.data]);
+      return res.data;
     } catch (error) {
       console.error("❌ Error creando producto:", error);
-      setError(error.message);
+  
+      // No seteamos el error global si es un 400 esperado
+      if (error.response?.status !== 400) {
+        setError(error.message);
+      }
+  
+      throw error; // Propaga el error para que el componente lo maneje
     } finally {
       setLoading(false);
     }
   };
+  
 
-  // Actualizar un producto
   const updateProductContext = async (id, data) => {
     setLoading(true);
     try {
       const res = await updateProduct(id, data);
-      setProducts(products.map((product) =>
-        product._id === id ? res.data : product
-      ));
-
-      
+      setProducts(
+        products.map((product) =>
+          product._id === id ? res.data : product
+        )
+      );
+      return res.data;
     } catch (error) {
       console.error(" Error actualizando producto:", error);
-      setError(error.message);
+  
+      if (error.response?.status !== 400) {
+        setError(error.message);
+      }
+  
+      throw error; // Propaga el error para que el componente lo maneje
     } finally {
       setLoading(false);
     }
   };
+  
 
   // Eliminar un producto
   const deleteProductContext = async (id) => {
