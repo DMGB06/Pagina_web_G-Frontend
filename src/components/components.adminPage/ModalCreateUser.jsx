@@ -17,16 +17,17 @@ const ModalCreateUser = ({ closeModal, createUserContext, registerErrors }) => {
     confirmPassword: "",
     role: "cliente",
   });
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
-    if (registerErrors.length === 0) {
+    if (formSubmitted && registerErrors.length === 0) {
       closeModal();
     }
-  }, [registerErrors]);
+  }, [registerErrors, formSubmitted]);
 
   const handleInputChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -36,7 +37,11 @@ const ModalCreateUser = ({ closeModal, createUserContext, registerErrors }) => {
   const handleCreateUser = async (e) => {
     e.preventDefault();
 
-    if (!newUser.username.trim() || !newUser.email.trim() || !newUser.password.trim()) {
+    if (
+      !newUser.username.trim() ||
+      !newUser.email.trim() ||
+      !newUser.password.trim()
+    ) {
       setError("Todos los campos son obligatorios.");
       return;
     }
@@ -47,6 +52,7 @@ const ModalCreateUser = ({ closeModal, createUserContext, registerErrors }) => {
     }
 
     try {
+      setFormSubmitted(true); // ✅ MARCAMOS QUE SE ENVIÓ EL FORMULARIO
       await createUserContext(newUser);
     } catch (err) {
       console.error("Error creando usuario:", err);
@@ -57,7 +63,9 @@ const ModalCreateUser = ({ closeModal, createUserContext, registerErrors }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm px-4">
       <div className="relative bg-[#1f1f1f] p-8 md:p-10 rounded-2xl shadow-2xl w-full max-w-lg border border-gray-700 animate-fadeIn transition-all duration-300 ease-in-out">
         <div className="flex justify-between items-center mb-8 border-b border-gray-700 pb-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-white">Crear Nuevo Usuario</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-white">
+            Crear Nuevo Usuario
+          </h2>
           <button
             onClick={closeModal}
             className="text-gray-400 hover:text-red-500 bg-transparent transition"
@@ -152,7 +160,11 @@ const ModalCreateUser = ({ closeModal, createUserContext, registerErrors }) => {
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="absolute top-[30px] right-3 text-gray-400 hover:text-white"
             >
-              {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+              {showConfirmPassword ? (
+                <FiEyeOff size={20} />
+              ) : (
+                <FiEye size={20} />
+              )}
             </button>
           </div>
 
