@@ -40,9 +40,11 @@ import Sidebar from "./components/sidebaradmin";
 import NavbarCliente from "./components/navbarcliente";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "./context/contextoAutenticacion";
 
 function Layout({ children }) {
   const location = useLocation();
+  const { isAuthenticated, user } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Cerrado por defecto en mobile
 
   const adminRoutes = [
@@ -66,6 +68,7 @@ function Layout({ children }) {
 
   const isAdminRoute = adminRoutes.includes(location.pathname);
   const isClientRoute = clientRoutes.includes(location.pathname);
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   if (isAdminRoute) {
     return (
@@ -87,6 +90,17 @@ function Layout({ children }) {
   }
 
   if (isClientRoute) {
+    return (
+      <div className="flex flex-col min-h-screen bg-[#f5f5f5] text-black">
+        <NavbarCliente />
+        <main className="flex-1 pt-20">{children}</main>
+      </div>
+    );
+  }
+
+  // Si el usuario está autenticado y no es admin, mostrar NavbarCliente
+  // excepto en páginas de login/register
+  if (isAuthenticated && !isAuthPage && user && user.role !== "admin") {
     return (
       <div className="flex flex-col min-h-screen bg-[#f5f5f5] text-black">
         <NavbarCliente />
